@@ -13,7 +13,7 @@ body {
 .mainBody {
 	margin: 50px auto;
 	width: 300px;
-	height: 500px;
+	height: 520px;
 	border-radius: 20px;
 	background-color: black;
 	padding: 17px;
@@ -21,15 +21,24 @@ body {
 }
 
 .screen {
-	height: 85px;
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	height: 110px;
+	border: 3mm ridge rgb(138 132 132 / 77%);
+}
+
+.resultScreen {
+	font-size: 1.7rem;
+	padding-right: 10px;
 }
 
 .buttons {
 	display: flex;
 	flex-wrap: wrap;
 	flex-direction: row;
-	padding: 5px;
 	justify-content: space-between;
+	padding: 5px;
 }
 
 .row {
