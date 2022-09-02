@@ -8,7 +8,9 @@ let sign = '';
 let equal = false;
 
 document.querySelector('.eraseAll').addEventListener('click', clearAll);
-document.querySelector('.buttons').addEventListener('click', pressedButton);
+document
+	.querySelectorAll('.btn')
+	.forEach((el) => el.addEventListener('click', pressedButton));
 
 function clearAll() {
 	firstNum = '';
@@ -22,9 +24,6 @@ function pressedButton(event) {
 	const key = event.target.textContent;
 
 	output.textContent = '0';
-
-	if (!event.target.classList.contains('btn')) return;
-	if (event.target.classList.contains('eraseAll')) return;
 
 	if (digit.includes(key)) {
 		if (secondNum == '' && sign == '') {
@@ -49,6 +48,9 @@ function pressedButton(event) {
 
 	if (key == '=') {
 		let result;
+
+		if (secondNum == '') secondNum = firstNum;
+
 		switch (sign) {
 			case '+':
 				result = +firstNum + +secondNum;
@@ -60,6 +62,13 @@ function pressedButton(event) {
 				result = firstNum * secondNum;
 				break;
 			case '/':
+				if (secondNum == '0') {
+					output.textContent = 'Error';
+
+					firstNum = '';
+					secondNum = '';
+					sign = '';
+				}
 				result = firstNum / secondNum;
 				break;
 			case '%':
