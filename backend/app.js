@@ -14,14 +14,14 @@ function clearAll() {
 	firstNum = '';
 	secondNum = '';
 	sign = '';
-	result = false;
+	equal = false;
 	output.textContent = 0;
 }
 
 function pressedButton(event) {
 	const key = event.target.textContent;
 
-	output.textContent = '';
+	output.textContent = '0';
 
 	if (!event.target.classList.contains('btn')) return;
 	if (event.target.classList.contains('eraseAll')) return;
@@ -33,38 +33,38 @@ function pressedButton(event) {
 		} else if (firstNum != '' && secondNum != '' && equal) {
 			secondNum = key;
 			equal = false;
-			output.textContent = secondNum;
+			output.textContent = firstNum + sign + secondNum;
 		} else {
 			secondNum += key;
-			output.textContent = secondNum;
+			output.textContent = firstNum + sign + secondNum;
 		}
 		return;
 	}
 
 	if (action.includes(key)) {
 		sign = key;
-		output.textContent = key;
-		console.log(key);
+		output.textContent = firstNum + key;
 		return;
 	}
 
 	if (key == '=') {
+		let result;
 		switch (sign) {
 			case '+':
-				firstNum = +firstNum + +secondNum;
+				result = +firstNum + +secondNum;
 				break;
 			case '-':
-				firstNum = firstNum - secondNum;
+				result = firstNum - secondNum;
 				break;
 			case '*':
-				firstNum = firstNum * secondNum;
+				result = firstNum * secondNum;
 				break;
 			case '/':
-				firstNum = firstNum / secondNum;
+				result = firstNum / secondNum;
 				break;
 			case '%':
 		}
 		equal = true;
-		output.textContent = firstNum;
+		output.textContent = result;
 	}
 }
