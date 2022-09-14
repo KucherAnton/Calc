@@ -22,20 +22,23 @@ function clearAll() {
 
 function pressedButton(event) {
 	const key = event.target.textContent;
-
+	console.log(firstNum);
 	output.textContent = '0';
 
 	if (digit.includes(key)) {
 		if (secondNum == '' && sign == '') {
 			firstNum += key;
 			output.textContent = firstNum;
+			console.log(firstNum);
 		} else if (firstNum != '' && secondNum != '' && equal) {
 			secondNum = key;
 			equal = false;
-			output.textContent = firstNum + sign + secondNum;
+			console.log(firstNum);
+			output.textContent = secondNum;
 		} else {
 			secondNum += key;
-			output.textContent = firstNum + sign + secondNum;
+			output.textContent = secondNum;
+			console.log(firstNum);
 		}
 		return;
 	}
@@ -44,22 +47,21 @@ function pressedButton(event) {
 		sign = key;
 		output.textContent = firstNum + key;
 		return;
+		console.log(firstNum);
 	}
 
 	if (key == '=') {
-		let result;
-
 		if (secondNum == '') secondNum = firstNum;
 
 		switch (sign) {
 			case '+':
-				result = +firstNum + +secondNum;
+				firstNum = +firstNum + +secondNum;
 				break;
 			case '-':
-				result = firstNum - secondNum;
+				firstNum = firstNum - secondNum;
 				break;
 			case '*':
-				result = firstNum * secondNum;
+				firstNum = firstNum * secondNum;
 				break;
 			case '/':
 				if (secondNum == '0') {
@@ -69,11 +71,12 @@ function pressedButton(event) {
 					secondNum = '';
 					sign = '';
 				}
-				result = firstNum / secondNum;
+				firstNum = firstNum / secondNum;
 				break;
 			case '%':
 		}
+		console.log(firstNum);
 		equal = true;
-		output.textContent = result;
+		output.textContent = firstNum;
 	}
 }
