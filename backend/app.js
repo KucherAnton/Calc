@@ -53,7 +53,7 @@ function pressedButton(event) {
 				firstNum = +firstNum + +secondNum;
 				break;
 			case '-':
-				firstNum = firstNum - secondNum;
+				firstNum = (firstNum - secondNum).toFixed(1);
 				break;
 			case '*':
 				firstNum = firstNum * secondNum;
@@ -66,11 +66,12 @@ function pressedButton(event) {
 					secondNum = '';
 					sign = '';
 				}
-				firstNum = firstNum / secondNum;
+				firstNum = (firstNum / secondNum).toFixed(3);
 				break;
 			case '%':
+				firstNum = ((firstNum / 100) * secondNum).toFixed(3);
+				break;
 		}
-		console.log(firstNum);
 		equal = true;
 		output.textContent = firstNum;
 	}
@@ -79,5 +80,4 @@ function pressedButton(event) {
 function signChange() {
 	firstNum *= -1;
 	output.textContent = firstNum;
-	console.log(firstNum);
 }
