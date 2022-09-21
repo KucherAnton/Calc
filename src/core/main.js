@@ -1,14 +1,15 @@
-const output = document.querySelector('.resultScreen p');
-const digit = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.'];
-const action = ['+', '-', '*', '/', '%'];
+import { actions, digits } from './constants/calculator.js';
 
 let firstNum = '';
 let secondNum = '';
 let sign = '';
 let equal = false;
 
+const output = document.querySelector('.resultScreen p');
+
 document.querySelector('.plusMinus').addEventListener('click', signChange);
 document.querySelector('.eraseAll').addEventListener('click', clearAll);
+
 document
 	.querySelectorAll('.btn')
 	.forEach((el) => el.addEventListener('click', pressedButton));
@@ -24,7 +25,11 @@ function clearAll() {
 function pressedButton(event) {
 	const key = event.target.textContent;
 
-	if (digit.includes(key)) {
+	const isDigitChosen = digits.includes(key);
+	const isActionChosen = actions.includes(key);
+	const isEqualsSignChosen = key == '=';
+
+	if (isDigitChosen) {
 		if (secondNum == '' && sign == '') {
 			firstNum += key;
 			output.textContent = firstNum;
@@ -39,41 +44,47 @@ function pressedButton(event) {
 		return;
 	}
 
-	if (action.includes(key)) {
+	if (isActionChosen) {
 		sign = key;
 		output.textContent = firstNum + key;
 		return;
 	}
 
-	if (key == '=') {
+	if (isEqualsSignChosen) {
 		if (secondNum == '') secondNum = firstNum;
 
-		switch (sign) {
-			case '+':
-				firstNum = +firstNum + +secondNum;
-				break;
-			case '-':
-				firstNum = (firstNum - secondNum).toFixed(1);
-				break;
-			case '*':
-				firstNum = firstNum * secondNum;
-				break;
-			case '/':
-				if (secondNum == '0') {
-					output.textContent = 'Error';
+		try {
+			const result = calculate(sign);
 
-					firstNum = '';
-					secondNum = '';
-					sign = '';
-				}
-				firstNum = (firstNum / secondNum).toFixed(3);
-				break;
-			case '%':
-				firstNum = ((firstNum / 100) * secondNum).toFixed(3);
-				break;
+			firstNum = result;
+			output.textContent = result;
+		} catch (error) {
+			output.textContent = error.message;
+			firstNum = '';
+			secondNum = '';
+			sign = '';
 		}
+
 		equal = true;
-		output.textContent = firstNum;
+	}
+}
+
+function calculate(sign) {
+	switch (sign) {
+		case '+':
+			return +firstNum + +secondNum;
+		case '-':
+			return (firstNum - secondNum).toFixed(1);
+		case '*':
+			return firstNum * secondNum;
+		case '/':
+			if (secondNum == '0') {
+				throw new Error('Cannot devide on zero!');
+			}
+			return (firstNum / secondNum).toFixed(3);
+
+		case '%':
+			return ((firstNum / 100) * secondNum).toFixed(3);
 	}
 }
 
